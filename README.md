@@ -15,8 +15,8 @@ This project was started very recently, 13/07/19, and has not been extensively t
 ## Sample
 The following sample uses the built-in Telepathy & MiniUDP transport layers for networking, and built-in CobblestoneSerializer for serializing.
 ####Client
-    
-    var client = new ClientNetManager(
+```csharp
+var client = new ClientNetManager(
     	new TransportLayerInfo[] {
     			new TransportLayerInfo(new TelepathyTransport(), 1337),
     			new TransportLayerInfo(new MiniUdpTransport(), 1447),
@@ -53,10 +53,11 @@ The following sample uses the built-in Telepathy & MiniUDP transport layers for 
     	client.Update();
     	Thread.Sleep(16);
     }
-	
+```
 
 ####Server
-    var server = new ServerNetManager(
+```csharp
+var server = new ServerNetManager(
     	new TransportLayerInfo[] {
     		new TransportLayerInfo(new TelepathyTransport(), 1337),
     		new TransportLayerInfo(new MiniUdpTransport(), 1447), 
@@ -93,10 +94,10 @@ The following sample uses the built-in Telepathy & MiniUDP transport layers for 
     	server.Update();
     	Thread.Sleep(16);
     }
-	
-
+```
 #### Packet
-    public struct PacketMessage
+```csharp
+public struct PacketMessage
     {
     	/*
     	* The attribute [NetSerializable] must be assigned to any field/property which will be sent over the network.
@@ -112,3 +113,4 @@ The following sample uses the built-in Telepathy & MiniUDP transport layers for 
     		this.text = text;
     	}
     }
+```
