@@ -3,7 +3,7 @@ One network-library to rule them all!
 
 #### Warning
 This project was started very recently, 13/07/19, and has not been extensively tested. It's very likely syntax changes will occur and bugs will appear. Please report errors/inconveniences and improve on this project via pull requests :-)
-##Features
+## Features
 - Support for simultaneous UDP + TCP with their respective transport layer
 	- Built-In: [Telepathy](http://github.com/vis2k/Telepathy "Telepathy"), a lightweight & efficient TCP transport layer
 	- Built-In: [MiniUDP](http://github.com/ashoulson/MiniUDP "MiniUDP"), a barebones UDP transport layer(implemented as unreliable but fast)
@@ -14,7 +14,7 @@ This project was started very recently, 13/07/19, and has not been extensively t
 
 ## Sample
 The following sample uses the built-in Telepathy & MiniUDP transport layers for networking, and built-in CobblestoneSerializer for serializing.
-####Client
+#### Client
 ```csharp
 var client = new ClientNetManager(
     	new TransportLayerInfo[] {
@@ -55,7 +55,7 @@ var client = new ClientNetManager(
     }
 ```
 
-####Server
+#### Server
 ```csharp
 var server = new ServerNetManager(
     	new TransportLayerInfo[] {
