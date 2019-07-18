@@ -16,13 +16,7 @@ This project was started very recently, 13/07/19, and has not been extensively t
 The following sample uses the built-in Telepathy & MiniUDP transport layers for networking, and built-in CobblestoneSerializer for serializing.
 #### Client
 ```csharp
-var client = new ClientNetManager(
-    	new TransportLayerInfo[] {
-    			new TransportLayerInfo(new TelepathyTransport(), 1337),
-    			new TransportLayerInfo(new MiniUdpTransport(), 1447),
-    		},
-    	new CobblestoneSerializer()
-    );
+var client = new ClientNetManager(new TransportLayerInfo[] { new TransportLayerInfo(new TelepathyTransport(), 1337), new TransportLayerInfo(new MiniUdpTransport(), 1447) }, new CobblestoneSerializer());
     
     client.RegisterPacket(typeof(PacketMessage));
     client.Subscribe(packet => {
@@ -57,13 +51,7 @@ var client = new ClientNetManager(
 
 #### Server
 ```csharp
-var server = new ServerNetManager(
-    	new TransportLayerInfo[] {
-    		new TransportLayerInfo(new TelepathyTransport(), 1337),
-    		new TransportLayerInfo(new MiniUdpTransport(), 1447), 
-    		},
-    	new CobblestoneSerializer()
-    );
+var server = new ServerNetManager(new TransportLayerInfo[] { new TransportLayerInfo(new TelepathyTransport(), 1337), new TransportLayerInfo(new MiniUdpTransport(), 1447) }, new CobblestoneSerializer());
     
     server.RegisterPacket(typeof(PacketMessage));
     server.Subscribe((packet, sender) => {
