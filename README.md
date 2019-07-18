@@ -16,72 +16,76 @@ This project was started very recently, 13/07/19, and has not been extensively t
 The following sample uses the built-in Telepathy & MiniUDP transport layers for networking, and built-in CobblestoneSerializer for serializing.
 #### Client
 ```csharp
-var client = new ClientNetManager(new TransportLayerInfo[] { new TransportLayerInfo(new TelepathyTransport(), 1337), new TransportLayerInfo(new MiniUdpTransport(), 1447) }, new CobblestoneSerializer());
+var client = new ClientNetManager(
+	new TransportLayerInfo[] { new TransportLayerInfo(new TelepathyTransport(), 1337), new TransportLayerInfo(new MiniUdpTransport(), 1447) },
+	new CobblestoneSerializer());
     
-    client.RegisterPacket(typeof(PacketMessage));
-    client.Subscribe(packet => {
-    	if (packet is PacketMessage message)
-    	{
-    		Logger.Log("Server: " + message.text);
-    	}
-    });
-    
-    client.Connect("127.0.0.1");
-    
-    while (true)
+client.RegisterPacket(typeof(PacketMessage));
+client.Subscribe(packet => {
+    if (packet is PacketMessage message)
     {
-    	if (Console.KeyAvailable)
-    	{
-    		var key = Console.ReadKey(true).Key;
-    
-    		if (key == ConsoleKey.A)
-				client.Send(new PacketMessage("Hello there, server!"), 0);
-    		else if (key == ConsoleKey.B)
-				client.Send(new PacketMessage("Epic mate"), 1);
-    		else if (key == ConsoleKey.Q)
-    		{
-    			client.Disconnect();
-    			break;
-    		}
-    	}
-    	client.Update();
-    	Thread.Sleep(16);
+    	Logger.Log("Server: " + message.text);
     }
+});
+    
+client.Connect("127.0.0.1");
+    
+while (true)
+{
+    if (Console.KeyAvailable)
+    {
+    	var key = Console.ReadKey(true).Key;
+    
+    	if (key == ConsoleKey.A)
+			client.Send(new PacketMessage("Hello there, server!"), 0);
+    	else if (key == ConsoleKey.B)
+			client.Send(new PacketMessage("Epic mate"), 1);
+    	else if (key == ConsoleKey.Q)
+    	{
+    		client.Disconnect();
+    		break;
+    	}
+    }
+    client.Update();
+    Thread.Sleep(16);
+}
 ```
 
 #### Server
 ```csharp
-var server = new ServerNetManager(new TransportLayerInfo[] { new TransportLayerInfo(new TelepathyTransport(), 1337), new TransportLayerInfo(new MiniUdpTransport(), 1447) }, new CobblestoneSerializer());
+var server = new ServerNetManager(
+	new TransportLayerInfo[] { new TransportLayerInfo(new TelepathyTransport(), 1337), new TransportLayerInfo(new MiniUdpTransport(), 1447) },
+	new CobblestoneSerializer());
     
-    server.RegisterPacket(typeof(PacketMessage));
-    server.Subscribe((packet, sender) => {
-    	if (packet is PacketMessage message)
-    	{
-    		Logger.Log(sender.Address + ": " + message.text);
-    	}
-    });
-    
-    server.Start();
-    
-    while (true)
+server.RegisterPacket(typeof(PacketMessage));
+server.Subscribe((packet, sender) => {
+    if (packet is PacketMessage message)
     {
-    	if (Console.KeyAvailable)
-    	{
-    		var key = Console.ReadKey(true).Key;
-    
-    		if (key == ConsoleKey.A)
-    			server.Send(new PacketMessage("Hey there, clients!"), 0);
-    		else if (key == ConsoleKey.B)
-    			server.Send(new PacketMessage("I'm gonna do what's called a pro-gamer move..."), 1);
-    		else if (key == ConsoleKey.Q)
-    		{
-    			server.Stop();
-    			break;
-    		}
-    	}
-    	server.Update();
-    	Thread.Sleep(16);
+    	Logger.Log(sender.Address + ": " + message.text);
     }
+});
+    
+   server.Start();
+    
+while (true)
+{
+    if (Console.KeyAvailable)
+    {
+    	var key = Console.ReadKey(true).Key;
+    
+    	if (key == ConsoleKey.A)
+    		server.Send(new PacketMessage("Hey there, clients!"), 0);
+    	else if (key == ConsoleKey.B)
+    		server.Send(new PacketMessage("I'm gonna do what's called a pro-gamer move..."), 1);
+    	else if (key == ConsoleKey.Q)
+    	{
+    		server.Stop();
+    		break;
+    	}
+    }
+    server.Update();
+    Thread.Sleep(16);
+}
 ```
 #### Packet
 ```csharp
