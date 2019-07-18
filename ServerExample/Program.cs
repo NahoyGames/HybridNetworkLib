@@ -15,6 +15,16 @@ namespace ServerExample
     {
         public static void Main(string[] args)
         {
+            /*
+             * First we initialize our server by creating a HybridNetworkLib.Server.ServerNetManager
+             *
+             * This example passes in an array of transports, composed of the built-in Telepathy & MiniUDP
+             * We're also using the built-in CobblestoneSerializer
+             *
+             * Important note: For any server and client to be connected, they must pass in the exact same transport layers & ports
+             *
+             * new ServerNetManager(ITransportLayer[], IObjectSerializer);
+             */
             var server = new ServerNetManager
                 (
                     new []
@@ -25,7 +35,16 @@ namespace ServerExample
                     new CobblestoneSerializer()
                 );
             
+            /*
+             * All packets must be registered with the serializer before being sent.
+             *
+             * It's important they're registered in the *same* order on both the server & client(s).
+             */
             server.RegisterPacket(typeof(PacketMessage));
+            
+            /*
+             * Subscribe this method to incoming packets
+             */
             server.Subscribe((packet, sender) =>
                 {
                     if (packet is PacketMessage message)
@@ -34,8 +53,14 @@ namespace ServerExample
                     }
                 });
             
+            /*
+             * Starts the server on the corresponding ports for each transport layer.
+             */
             server.Start();
 
+            /*
+             * A simple forever-loop for this console application
+             */
             while (true)
             {
                 if (Console.KeyAvailable)
@@ -44,20 +69,33 @@ namespace ServerExample
 
                     if (key == ConsoleKey.A)
                     {
+                        /*
+                         * Send a packet on channel#0, which in our case is Telepathy
+                         */
                         server.Send(new PacketMessage("Hey there, clients!"), 0);
                     }
                     else if (key == ConsoleKey.B)
                     {
+                        /*
+                         * Send a packet on channel#1, which in our case is MiniUDP
+                         */
                         server.Send(new PacketMessage("I'm gonna do what's called a pro-gamer move..."), 1);
                     }
                     else if (key == ConsoleKey.Q)
                     {
+                        /*
+                         * Stop the server before quitting
+                         */
                         server.Stop();
                         break;
                     }
                 }
+                /*
+                 * Update checks for incoming connections & packets.
+                 */
                 server.Update();
-                Thread.Sleep(16);
+                
+                Thread.Sleep(16); // Simple ~60fps loop. If using Unity, make sure the code above is in FixedUpdate()
             }
         }
     }
