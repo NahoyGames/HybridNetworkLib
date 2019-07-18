@@ -30,7 +30,7 @@ namespace ServerExample
                     new []
                     {
                         new TransportLayerInfo(new TelepathyTransport(), 1337),
-                        new TransportLayerInfo(new MiniUdpTransport(), 1447), 
+                        new TransportLayerInfo(new MiniUdpTransport(), 1447)
                     },
                     new CobblestoneSerializer()
                 );

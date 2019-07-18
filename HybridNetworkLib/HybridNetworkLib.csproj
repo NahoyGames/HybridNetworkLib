@@ -5,10 +5,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="LiteNetLib" Version="0.8.3.1" />
-    </ItemGroup>
-
-    <ItemGroup>
       <Reference Include="MiniUDP, Version=0.0.8.5, Culture=neutral, PublicKeyToken=null">
         <HintPath>..\..\..\git\MiniUDP\MiniUDP\bin\Debug\MiniUDP.dll</HintPath>
       </Reference>
