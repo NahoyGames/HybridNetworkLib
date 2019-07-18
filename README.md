@@ -106,3 +106,7 @@ public struct PacketMessage
     	}
     }
 ```
+
+## Dependencies
+- Telepathy: You need to use my fork which has very minor adjustments, found @ https://github.com/NahoyGames/Telepathy
+- MiniUDP: Original works just fine @ https://github.com/ashoulson/MiniUDP
