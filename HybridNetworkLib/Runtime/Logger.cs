@@ -21,7 +21,7 @@ namespace HybridNetworkLib.Runtime
                 Console.ResetColor();
             }
             
-            _logMethod(msg);
+            _logMethod("[HybridNetLib]" + msg);
         }
         
         public static void Warn(string msg)
@@ -32,7 +32,7 @@ namespace HybridNetworkLib.Runtime
                 Console.ForegroundColor = ConsoleColor.Yellow;
             }
 
-            _warnMethod(msg);
+            _warnMethod("[HybridNetLib]" + msg);
         }
 
         public static void Error(string msg)
@@ -43,7 +43,7 @@ namespace HybridNetworkLib.Runtime
                 Console.ForegroundColor = ConsoleColor.Red;
             }
 
-            _errorMethod(msg);
+            _errorMethod("[HybridNetLib]" + msg);
         }
     }
 }

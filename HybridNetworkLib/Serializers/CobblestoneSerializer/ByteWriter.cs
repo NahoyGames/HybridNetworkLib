@@ -7,12 +7,22 @@ namespace HybridNetworkLib.Serializers.CobblestoneSerializer
 {
     public class ByteWriter
     {
-        protected readonly byte[] _data;
+        protected byte[] _data;
         public byte[] Data => _data;
 
         protected int _writeIndex;
 
+        public ByteWriter()
+        {
+            
+        }
+        
         public ByteWriter(int size)
+        {
+            Init(size);
+        }
+
+        public void Init(int size)
         {
             _data = new byte[size];
             _writeIndex = 0;
@@ -27,49 +37,49 @@ namespace HybridNetworkLib.Serializers.CobblestoneSerializer
         }
         
         /// <returns>Size in bytes that the value will occupy in the buffer.</returns>
-        public static int SizeOf(bool value) => sizeof(bool);
+        public int SizeOf(bool value) => sizeof(bool);
         
         /// <returns>Size in bytes that the value will occupy in the buffer.</returns>
-        public static int SizeOf(byte value) => sizeof(byte);
+        public int SizeOf(byte value) => sizeof(byte);
         
         /// <returns>Size in bytes that the value will occupy in the buffer.</returns>
-        public static int SizeOf(char value) => sizeof(char);
+        public int SizeOf(char value) => sizeof(char);
+        
+        /*/// <returns>Size in bytes that the value will occupy in the buffer.</returns>
+        public int SizeOf(decimal value) => sizeof(int) * 5;*/
         
         /// <returns>Size in bytes that the value will occupy in the buffer.</returns>
-        //public static int SizeOf(decimal value) => sizeof(int) * 5;
+        public int SizeOf(double value) => sizeof(double);
         
         /// <returns>Size in bytes that the value will occupy in the buffer.</returns>
-        public static int SizeOf(double value) => sizeof(double);
+        public int SizeOf(float value) => sizeof(float);
         
         /// <returns>Size in bytes that the value will occupy in the buffer.</returns>
-        public static int SizeOf(float value) => sizeof(float);
+        public int SizeOf(int value) => sizeof(int);
         
         /// <returns>Size in bytes that the value will occupy in the buffer.</returns>
-        public static int SizeOf(int value) => sizeof(int);
+        public int SizeOf(long value) => sizeof(long);
         
         /// <returns>Size in bytes that the value will occupy in the buffer.</returns>
-        public static int SizeOf(long value) => sizeof(long);
+        public int SizeOf(sbyte value) => sizeof(sbyte);
         
         /// <returns>Size in bytes that the value will occupy in the buffer.</returns>
-        public static int SizeOf(sbyte value) => sizeof(sbyte);
+        public int SizeOf(short value) => sizeof(short);
         
         /// <returns>Size in bytes that the value will occupy in the buffer.</returns>
-        public static int SizeOf(short value) => sizeof(short);
+        public int SizeOf(string value) => SizeOf(value.Length) + Encoding.UTF8.GetByteCount(value);
         
         /// <returns>Size in bytes that the value will occupy in the buffer.</returns>
-        public static int SizeOf(string value) => SizeOf(value.Length) + Encoding.UTF8.GetByteCount(value);
+        public int SizeOf(uint value) => sizeof(uint);
         
         /// <returns>Size in bytes that the value will occupy in the buffer.</returns>
-        public static int SizeOf(uint value) => sizeof(uint);
+        public int SizeOf(ulong value) => sizeof(ulong);
         
         /// <returns>Size in bytes that the value will occupy in the buffer.</returns>
-        public static int SizeOf(ulong value) => sizeof(ulong);
-        
-        /// <returns>Size in bytes that the value will occupy in the buffer.</returns>
-        public static int SizeOf(ushort value) => sizeof(ushort);
+        public int SizeOf(ushort value) => sizeof(ushort);
 
         /// <returns>Size in bytes that the (multi-dimensional) array will occupy in the buffer.</returns>
-        public static int SizeOf(Array value)
+        public int SizeOf(Array value)
         {
             int size = SizeOf(value.Length);
             foreach (var i in value)
@@ -90,7 +100,7 @@ namespace HybridNetworkLib.Serializers.CobblestoneSerializer
         /// Will attempt to return the size of the given value, if known.
         /// </summary>
         /// <returns>Size in bytes that the value will occupy in the buffer.</returns>
-        public static int TrySizeOf(object value)
+        public virtual int TrySizeOf(object value)
         {
             switch (value)
             {

@@ -23,7 +23,7 @@ namespace HybridNetworkLib.Server
         private readonly List<Connection> _connectionsHistory;
         // List of clients currently connecting on each channel procedurally
         private readonly Dictionary<IPAddress, Connection> _pendingConnections;
-        
+
         // Callbacks from transport layers
         private event OnClientConnect ConnectCallback;
         private event OnReceiveMessage MessageCallback;
@@ -147,6 +147,11 @@ namespace HybridNetworkLib.Server
             }
 
             return null;
+        }
+
+        public Connection[] GetConnections(bool onlyConnected = true)
+        {
+            return onlyConnected ? _activeConnections.ToArray() : _connectionsHistory.ToArray();
         }
         
         private void ClientConnectHandler(IPAddress ip, PerChannelID id)

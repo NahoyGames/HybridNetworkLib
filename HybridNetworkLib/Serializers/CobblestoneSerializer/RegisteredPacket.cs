@@ -21,14 +21,14 @@ namespace HybridNetworkLib.Serializers.CobblestoneSerializer
             _properties = type.GetProperties(BindingFlags.NonPublic | BindingFlags.Instance).Where(property => Attribute.IsDefined(property, typeof(NetSerializableAttribute)));
         }
         
-        public byte[] Serialize(object obj, ushort id)
+        public byte[] Serialize(object obj, ushort id, ByteWriter writer)
         {
             // Size of the buffer
-            var size = ByteWriter.SizeOf(id);
+            var size = writer.SizeOf(id);
             foreach (var field in _fields)
             {
                 int s;
-                if ((s = ByteWriter.TrySizeOf(field.GetValue(obj))) >= 0)
+                if ((s = writer.TrySizeOf(field.GetValue(obj))) >= 0)
                 {
                     size += s;
                 }
@@ -41,7 +41,7 @@ namespace HybridNetworkLib.Serializers.CobblestoneSerializer
             foreach (var property in _properties)
             {
                 int s;
-                if ((s = ByteWriter.TrySizeOf(property.GetValue(obj))) >= 0)
+                if ((s = writer.TrySizeOf(property.GetValue(obj))) >= 0)
                 {
                     size += s;
                 }
@@ -53,7 +53,7 @@ namespace HybridNetworkLib.Serializers.CobblestoneSerializer
             }
             
             // Fill buffer
-            var writer = new ByteWriter(size);
+            writer.Init(size);
             
             writer.Write(id); // Packet type ID
             foreach (var field in _fields)
